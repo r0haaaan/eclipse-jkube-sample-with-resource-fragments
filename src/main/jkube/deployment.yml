@@ -13,24 +13,25 @@
 #
 
 spec:
-  replicas: 1
-  template:
-    spec:
-      volumes:
-        - name: config
-          gitRepo:
-            repository: 'https://github.com/jstrachan/sample-springboot-config.git'
-            revision: 667ee4db6bc842b127825351e5c9bae5a4fb2147
-            directory: .
-      containers:
-        - volumeMounts:
-            - name: config
-              mountPath: /app/config
-          env:
-            - name: KUBERNETES_NAMESPACE
-              valueFrom:
-                fieldRef:
-                  apiVersion: v1
-                  fieldPath: metadata.namespace
-      serviceAccount: ribbon
+ template:
+   spec:
+     volumes:
+      - name: mydirectory
+        persistentVolumeClaim:
+          claimName: mydirectory
+     containers:
+     - env:
+       - name: spring.cloud.config.uri
+         value: https://host.com
+       - name: spring.cloud.config.enabled
+         value: true
+       - name: spring.cloud.config.profile
+         value: dev
+       - name: spring.cloud.config.username
+         value: admin
+       - name: spring.cloud.config.password
+         value: admin
+     - volumeMounts:
+       - name: mydirectory
+         mountPath: /mydirectorypath
 
