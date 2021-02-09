@@ -17,3 +17,7 @@ metadata:
     api.service.kubernetes.io/path: /hello
 spec:
   type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 9376
